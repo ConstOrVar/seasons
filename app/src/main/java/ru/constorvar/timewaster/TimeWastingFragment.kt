@@ -85,6 +85,7 @@ class TimeWastingFragment : Fragment() {
 
             bindObservable(
                 observable = colorChangeStream
+                    .startWith(Unit)
                     .switchMap { Observable.interval(5,5, TimeUnit.SECONDS) },
                 action = { source ->
                     source
