@@ -1,4 +1,4 @@
-package ru.constorvar.seasons
+package ru.constorvar.timewaster
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

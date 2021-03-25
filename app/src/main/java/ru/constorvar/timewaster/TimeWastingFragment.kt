@@ -1,4 +1,4 @@
-package ru.constorvar.seasons
+package ru.constorvar.timewaster
 
 import android.graphics.Color
 import android.os.Bundle
@@ -12,7 +12,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
-import ru.constorvar.seasons.databinding.FragmentTimeWastingBinding
+import ru.constorvar.timewaster.databinding.FragmentTimeWastingBinding
 import java.util.*
 import java.util.concurrent.TimeUnit
 

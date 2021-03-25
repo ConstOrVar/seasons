@@ -1,4 +1,4 @@
-package ru.constorvar.seasons
+package ru.constorvar.timewaster
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
