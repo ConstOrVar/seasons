@@ -36,6 +36,41 @@ Using ability to observe **lifecycle** changes of base android components (*Acti
 Configurator.Builder()
 	.addOperation(Lifecycle.Event.ON_RESUME) { TODO() }
 ```
+To perform action that later (at some Lifecycle.Event) should be reverted, we can use convenient extension function on *Builder* like this one:
+```kotlin
+fun <T, R: Any?> Configurator.Builder.bind(
+    target: T,
+    crossinline bindAction: (LifecycleOwner, T) -> R,
+    bindOnEvent: Lifecycle.Event,
+    crossinline unbindAction: (LifecycleOwner, T, R) -> Unit,
+    unbindOnEvent: Lifecycle.Event = bindOnEvent.oppositeEvent()
+) {
+    var result: R? = null
+    addOperation(bindOnEvent) { result = bindAction(it, target) }
+    addOperation(unbindOnEvent) { unbindAction(it, target, result!!) }
+}
+```
+and more concrete example for *observable*:
+```kotlin
+fun <T> Configurator.Builder.bindObservable(
+    observable: Observable<T>,
+    action: (Observable<T>) -> Disposable,
+    bindOnEvent: Lifecycle.Event = Lifecycle.Event.ON_CREATE,
+    unbindOnEvent: Lifecycle.Event = bindOnEvent.oppositeEvent()
+) {
+    bind(
+        target = observable to action,
+        bindAction = { _, (stream, act) ->
+            act(stream)
+        },
+        bindOnEvent = bindOnEvent,
+        unbindAction = { _, _, subscription ->
+            subscription.dispose()
+        },
+        unbindOnEvent
+    )
+}
+```
 
 ## Basically, configuration is performed in:
 - *Activity#onCreate()*
